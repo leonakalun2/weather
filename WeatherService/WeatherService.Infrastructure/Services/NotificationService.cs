@@ -8,9 +8,9 @@ namespace WeatherService.Infrastructure.Services
     {
         private readonly ILogger<NotificationService> _logger;
 
-        public NotificationService(ILogger logger)
+        public NotificationService(ILogger<NotificationService> logger)
         {
-            _logger = _logger;
+            _logger = logger;
         }
 
         public Task SendAlertEmailAsync(WeatherAlertEntity alert, WeatherRecordEntity currentWeather, string message)
