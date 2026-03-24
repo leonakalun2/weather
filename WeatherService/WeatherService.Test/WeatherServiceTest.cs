@@ -5,6 +5,7 @@ using Moq;
 using WeatherService.Api.Services;
 using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
 using WeatherService.Test.Helpers;
 

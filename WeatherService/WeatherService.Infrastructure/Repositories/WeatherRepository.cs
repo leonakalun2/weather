@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Infrastructure.Persistence;
-using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
 
 namespace WeatherService.Infrastructure.Repositories

@@ -1,6 +1,6 @@
 ﻿using WeatherService.Model.Enums;
 
-namespace WeatherService.Model.Dtos
+namespace WeatherService.Model.Entities
 {
     public class WeatherAlertEntity
     {

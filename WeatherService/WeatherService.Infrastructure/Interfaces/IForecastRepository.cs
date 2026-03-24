@@ -1,4 +1,4 @@
-﻿using WeatherService.Model.Dtos;
+﻿using WeatherService.Model.Entities;
 
 namespace WeatherService.Infrastructure.Interfaces
 {

@@ -2,7 +2,7 @@ services:
     weather-api:
         build:
             context: .
-            dockerfile: dockerfile
+            dockerfile: Dockerfile
         container_name: weather-services
         ports: 
             - "8080:8080"

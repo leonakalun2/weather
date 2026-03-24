@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using WeatherService.Infrastructure.Interfaces;
-using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 
 namespace WeatherService.Infrastructure.Services
 {

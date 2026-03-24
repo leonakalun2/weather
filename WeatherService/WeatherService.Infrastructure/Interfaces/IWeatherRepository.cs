@@ -1,5 +1,5 @@
-﻿using WeatherService.Model.Dtos;
-using WeatherService.Model.Dtos.Responses;
+﻿using WeatherService.Model.Dtos.Responses;
+using WeatherService.Model.Entities;
 
 namespace WeatherService.Infrastructure.Interfaces
 {

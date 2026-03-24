@@ -2,6 +2,7 @@
 using WeatherService.Infrastructure.ExternalProviders;
 using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
 
 namespace WeatherService.Api.Services

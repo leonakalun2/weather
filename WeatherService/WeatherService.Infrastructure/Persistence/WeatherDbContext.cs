@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 
 namespace WeatherService.Infrastructure.Persistence
 {

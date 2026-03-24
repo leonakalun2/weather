@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Model.Dtos;
+using WeatherService.Model.Entities;
 
 namespace WeatherService.Infrastructure.Services
 {

@@ -1,4 +1,4 @@
-﻿namespace WeatherService.Model.Dtos
+﻿namespace WeatherService.Model.Entities
 {
     public class ForecastRecordEntity
     {

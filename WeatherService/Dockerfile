@@ -9,7 +9,7 @@ COPY ["WeatherService.Infrastructure/WeatherService.Infrastructure.csproj", "Wea
 RUN dotnet restore "WeatherService.Api/WeatherService.Api.csproj"
 
 # Copy source and build
-COPY ..
+COPY . .
 WORKDIR "/WeatherService.Api"
 RUN dotnet build "WeatherService.Api.csproj" -c Release -o /app/build
 
@@ -37,8 +37,9 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
 	CMD curl http://localhost:8080/health || exit 1
 	
 EXPOSE 8080
-ENV ASPNETCORE_URLS="http//+:8080"
+ENV ASPNETCORE_URLS="http://+:8080"
 ENV ASPNETCORE_ENVIRONMENT="Production"
 ENV Database__Path="/app/data/weather.db"
 
-ENTRYPOINT["dotnet", "WeatherService.Api.dll"]
+ENTRYPOINT ["dotnet", "WeatherService.Api.dll"]
+

@@ -7,6 +7,7 @@ using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Infrastructure.Persistence;
 using WeatherService.Model.Dtos;
 using WeatherService.Model.Dtos.Responses;
+using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
 
 namespace WeatherService.Test

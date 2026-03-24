@@ -1,5 +1,6 @@
 ﻿using WeatherService.Model.Dtos;
 using WeatherService.Model.Dtos.Responses;
+using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
 
 namespace WeatherService.Api.Helpers
