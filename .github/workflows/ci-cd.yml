@@ -44,7 +44,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          dotnet test tests/WeatherService.Tests/WeatherService.Tests.csproj \
+          dotnet test /WeatherService.Tests/WeatherService.Tests.csproj \
             --no-build \
             --configuration Release \
             --logger "trx;LogFileName=unit.trx" \
