@@ -180,11 +180,10 @@ jobs:
       - name: Log in to Azure
         uses: azure/login@v3
         with:
-          auth-type: IDENTITY
+          auth-type: SERVICE_PRINCIPAL
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          enable-AzPSSession: true
 
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v1
