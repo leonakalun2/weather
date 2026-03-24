@@ -37,10 +37,10 @@ jobs:
           restore-keys: ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore WeatherService.slnx
+        run: dotnet restore WeatherService/WeatherService.slnx
 
       - name: Build solution
-        run: dotnet build WeatherService.slnx --no-restore --configuration Release
+        run: dotnet build WeatherService/WeatherService.slnx --no-restore --configuration Release
 
       - name: Run unit tests
         run: |
@@ -79,11 +79,11 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore dependencies
-        run: dotnet restore WeatherService.slnx
+        run: dotnet restore WeatherService/WeatherService.slnx
 
       - name: Scan for vulnerable packages
         run: |
-          dotnet list WeatherService.slnx package \
+          dotnet list WeatherService/WeatherService.slnx package \
             --vulnerable \
             --include-transitive \
             2>&1 | tee vulnerability-report.txt
