@@ -2,9 +2,9 @@
 {
     public enum ThresholdOperatorEnum
     {
-        GreaterThan, 
-        LessThan, 
-        GreaterThanOrEqual, 
-        LessThanOrEqual
+        GreaterThan = 1, 
+        LessThan = 2, 
+        GreaterThanOrEqual = 3, 
+        LessThanOrEqual = 4
     }
 }

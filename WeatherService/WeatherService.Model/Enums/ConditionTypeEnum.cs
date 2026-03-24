@@ -2,12 +2,12 @@
 {
     public enum ConditionTypeEnum
     {
-        Temperature,
-        Humidity,
-        RainfallMm,
-        WindSpeedMs,
-        Pm25,
-        Psi,
-        UvIndex
+        Temperature = 1,
+        Humidity = 2,
+        RainfallMm = 3,
+        WindSpeedMs = 4,
+        Pm25 = 5,
+        Psi = 6,
+        UvIndex = 7
     }
 }
