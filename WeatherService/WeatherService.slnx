@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="WeatherService.Infrastructure/WeatherService.Infrastructure.csproj" />
+  <Project Path="WeatherService.Model/WeatherService.Model.csproj" />
+  <Project Path="WeatherService.Test/WeatherService.Test.csproj" Id="20f42ede-c347-4c8e-98ba-5793d4c420f0" />
+  <Project Path="WeatherService/WeatherService.Api.csproj" />
+</Solution>

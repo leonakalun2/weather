@@ -1,0 +1,27 @@
+services:
+    weather-api:
+        build:
+            context: .
+            dockerfile: dockerfile
+        container_name: weather-services
+        ports: 
+            - "8080:8080"
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - Database__Path=/app/data/weather.db
+            - WeatherProviders__DataGovSg__ApiKey=${DATAGOV_API_KEY:-}
+            - Jwt__Key=${JWT_SECRET_KEY:-default-dev-key-please-change-in-production-32chars!}
+        volumes:
+            - weather-data:/app/data/weather
+            - weather-logs:/app/logs
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 20s
+    
+volumes:
+    weather-data:
+    weather-logs:

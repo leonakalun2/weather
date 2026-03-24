@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+tests/
+*.db
+*.db-shm
+*.db-wal
+logs/
+.vs/
+.idea/
+*.user
+.git/
+.gitignore
+Dockerfile
+docker-compose*.yml
+README.md
