@@ -103,19 +103,21 @@ jobs:
         with:
           name: vulnerability-report
           path: vulnerability-report.txt
-
-  # ── Job 3: Docker Build and Push ────────────────────────────────────────────
+          
+# ── Job 3: Docker Build and Push ────────────────────────────────────────────
   docker:
     name: 🐳 Docker Build & Push
     runs-on: ubuntu-latest
     needs: [build-and-test, security-scan]
-    # Only runs on pushes to main (not on pull requests)
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
-    # Required to push to GitHub Container Registry
     permissions:
       contents: read
       packages: write
+
+    outputs:
+      # Pass the image tag to the deploy job
+      image-tag: ${{ steps.meta.outputs.version }}
 
     steps:
       - name: Checkout code
@@ -124,36 +126,92 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Push to GitHub Container Registry
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Also push to Azure Container Registry
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io
+          username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+          password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            ghcr.io/${{ github.repository }}/weather-service
+            ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/weather-service
           tags: |
-            # Tag with branch name e.g. "main"
             type=ref,event=branch
-            # Tag with short commit SHA e.g. "sha-a1b2c3d"
             type=sha,prefix=sha-
-            # Tag as "latest" when pushing to main
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./WeatherService
-          file: WeatherService/Dockerfile
+          context: .
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # Build for both Intel and Apple Silicon
           platforms: linux/amd64,linux/arm64
-          # Cache layers in GitHub Actions cache — makes rebuilds faster
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  # ── Job 4: Deploy to Azure Container Apps ───────────────────────────────────
+  deploy:
+    name: 🚀 Deploy to Azure
+    runs-on: ubuntu-latest
+    needs: docker
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          registryUrl: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io
+          registryUsername: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+          containerAppName: weather-service
+          resourceGroup: weather_app_group
+          imageToDeploy: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/weather-service:latest
+
+      - name: Run smoke test
+        run: |
+          echo "Waiting for deployment to stabilise..."
+          sleep 30
+
+          # Get the app URL
+          APP_URL=$(az containerapp show \
+            --name weather-service \
+            --resource-group weather-service-rg \
+            --query "properties.configuration.ingress.fqdn" \
+            --output tsv)
+
+          echo "App URL: https://$APP_URL"
+
+          # Hit the health endpoint
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://$APP_URL/health)
+
+          if [ "$STATUS" != "200" ]; then
+            echo "❌ Health check failed — HTTP $STATUS"
+            exit 1
+          fi
+
+          echo "✅ Deployment successful — https://$APP_URL"
