@@ -58,8 +58,15 @@ try
                     ctx.GetRequiredService<IGeocodingProvider>(), ctx.GetRequiredService<INotificationService>(),
                     ctx.GetRequiredService<ILogger<AlertService>>()));
 
+    builder.Services.AddHttpClient<INotificationService, NotificationService>()
+        .AddStandardResilienceHandler(i =>
+        {
+            i.Retry.MaxRetryAttempts = 2;
+            i.Retry.Delay = TimeSpan.FromSeconds(2);
+        });
+
     builder.Services.AddScoped<IExportService, ExportService>();
-    builder.Services.AddScoped<INotificationService>(ctx => new NotificationService(ctx.GetRequiredService<ILogger<NotificationService>>()));
+    //builder.Services.AddScoped<INotificationService>(ctx => new NotificationService(ctx.GetRequiredService<ILogger<NotificationService>>()));
     builder.Services.AddMemoryCache();
 
     builder.Services.AddHostedService<AlertProcessingBackgroundService>();
