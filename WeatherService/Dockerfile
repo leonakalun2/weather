@@ -26,6 +26,13 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 # Run as non-root user for security
 RUN addgroup --system --gid 1001 weatherapp \
 	&& adduser --system --uid 1001 --ingroup weatherapp --shell /bin/false weatherapp
+	
+WORKDIR /app
+
+# Create /app/data BEFORE switching to non-root user
+# and set ownership so weatherapp can write to it
+RUN mkdir -p /app/data /app/logs \
+ && chown -R weatherapp:weatherapp /app
 
 WORKDIR /app/build
 RUN mkdir -p /app/data /app/logs && chown -R weatherapp:weatherapp /app/build

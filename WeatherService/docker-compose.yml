@@ -12,7 +12,7 @@ services:
             - WeatherProviders__DataGovSg__ApiKey=${DATAGOV_API_KEY:-}
             - Jwt__Key=${JWT_SECRET_KEY:-default-dev-key-please-change-in-production-32chars!}
         volumes:
-            - weather-data:/app/data/weather
+            - weather-data:/app/data
             - weather-logs:/app/logs
         restart: unless-stopped
         healthcheck:
