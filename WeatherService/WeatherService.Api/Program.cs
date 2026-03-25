@@ -155,7 +155,7 @@ try
     app.UseMiddleware<SecurityHeadersMiddleware>();
     app.UseMiddleware<RequestLoggingMiddleware>();
 
-    if (app.Environment.IsDevelopment())
+    //if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI(i =>
