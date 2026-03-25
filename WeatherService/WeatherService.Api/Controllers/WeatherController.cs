@@ -26,7 +26,7 @@ namespace WeatherService.Api.Controllers
         [HttpGet("currentweather")]
         [ProducesResponseType(typeof(BaseApiResponseDto<WeatherResponseDto>), 200)]
         [ProducesResponseType(typeof(BaseApiResponseDto<WeatherResponseDto>), 400)]
-        public async Task<IActionResult> GetCurrentWeather([FromQuery] string location = "singapore")
+        public async Task<IActionResult> GetCurrentWeather([FromQuery] string location = "ang mo kio")
         {
             if (string.IsNullOrWhiteSpace(location))
                 return BadRequest(BaseApiResponseDto<WeatherResponseDto>.Fail("Location is required"));
@@ -47,7 +47,7 @@ namespace WeatherService.Api.Controllers
         /// <returns></returns>
         [HttpGet("forecast")]
         [ProducesResponseType(typeof(BaseApiResponseDto<ForecastResponseDto>), 200)]
-        public async Task<IActionResult> GetForecast([FromQuery] string location,[FromQuery] int days)
+        public async Task<IActionResult> GetForecast([FromQuery] string location = "tampines",[FromQuery] int days = 4)
         {
             if (string.IsNullOrWhiteSpace(location))
                 return BadRequest(BaseApiResponseDto<WeatherResponseDto>.Fail("Location is required"));
@@ -127,7 +127,7 @@ namespace WeatherService.Api.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(typeof(BaseApiResponseDto<object>), 200)]
         public async Task<IActionResult> Refresh(
-        [FromQuery] string location = "Singapore")
+        [FromQuery] string location = "buangkok")
         {
             if (string.IsNullOrWhiteSpace(location))
                 return BadRequest(BaseApiResponseDto<object>.Fail("Location is required"));

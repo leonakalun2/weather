@@ -20,7 +20,7 @@ namespace WeatherService.Api.Services
             _logger.LogInformation("Weather refresh service started");
 
             // Stagger start so it doesn't run immediately at startup
-            await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(3), stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -40,7 +40,7 @@ namespace WeatherService.Api.Services
                     }
 
                     _logger.LogInformation("Refreshed {Count} locations", locations.Count);
-                    await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
+                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
                 }
                 catch (Exception ex)
                 {

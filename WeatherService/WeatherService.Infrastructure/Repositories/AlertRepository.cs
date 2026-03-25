@@ -22,8 +22,6 @@ namespace WeatherService.Infrastructure.Repositories
 
         public async Task<WeatherAlertEntity?> GetByIdAsync(Guid id)
         {
-            // FindAsync is optimised for primary key lookups —
-            // it checks the EF Core change tracker before hitting the DB
             var ret = await _dbContext.WeatherAlerts.FindAsync(id);
             return ret;
         }

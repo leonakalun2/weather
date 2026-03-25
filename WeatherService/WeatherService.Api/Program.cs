@@ -66,7 +66,6 @@ try
         });
 
     builder.Services.AddScoped<IExportService, ExportService>();
-    //builder.Services.AddScoped<INotificationService>(ctx => new NotificationService(ctx.GetRequiredService<ILogger<NotificationService>>()));
     builder.Services.AddMemoryCache();
 
     builder.Services.AddHostedService<AlertProcessingBackgroundService>();

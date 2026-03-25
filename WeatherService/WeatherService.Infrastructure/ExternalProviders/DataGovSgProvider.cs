@@ -150,7 +150,7 @@ namespace WeatherService.Infrastructure.ExternalProviders
 
         #region Helper methods
         public static string DeriveConditionFromCurrentReadings(double rainfallMm, double humidityPct) =>
-        rainfallMm switch
+            rainfallMm switch
         {
             > 5 => "Thunderstorm",
             > 1 => "Rain",

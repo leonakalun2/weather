@@ -29,10 +29,10 @@ namespace WeatherService.Api.Services
                 {
                     _logger.LogError(ex, "Error in alert processing");
                 }
-                await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
+                await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(15), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
         }
     }
 }

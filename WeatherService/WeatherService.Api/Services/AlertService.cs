@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-using WeatherService.Infrastructure.Interfaces;
-using WeatherService.Model.Dtos;
+﻿using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Model.Dtos.Requests;
 using WeatherService.Model.Entities;
 using WeatherService.Model.Enums;
