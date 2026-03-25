@@ -14,6 +14,7 @@ using WeatherService.Infrastructure.Interfaces;
 using WeatherService.Infrastructure.Persistence;
 using WeatherService.Infrastructure.Repositories;
 using WeatherService.Infrastructure.Services;
+using WeatherService.Model.Dtos;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -64,6 +65,8 @@ try
             i.Retry.MaxRetryAttempts = 2;
             i.Retry.Delay = TimeSpan.FromSeconds(2);
         });
+
+    builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Email"));
 
     builder.Services.AddScoped<IExportService, ExportService>();
     builder.Services.AddMemoryCache();
