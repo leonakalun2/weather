@@ -167,56 +167,56 @@ jobs:
           cache-to: type=gha,mode=max
 
   # ── Job 4: Deploy to Azure Container Apps ───────────────────────────────────
-  deploy:
-    name: 🚀 Deploy to Azure
-    runs-on: ubuntu-latest
-    needs: docker
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    permissions:
-        contents: read
-        id-token: write
+  # deploy:
+    # name: 🚀 Deploy to Azure
+    # runs-on: ubuntu-latest
+    # needs: docker
+    # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # permissions:
+        # contents: read
+        # id-token: write
     
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    # steps:
+      # - name: Checkout code
+        # uses: actions/checkout@v4
 
-      - name: Log in to Azure
-        uses: azure/login@v3
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # - name: Log in to Azure
+        # uses: azure/login@v3
+        # with:
+          # client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          # tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          # subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to Azure Container Apps
-        uses: azure/container-apps-deploy-action@v1
-        with:
-          registryUrl: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io
-          registryUsername: ${{ secrets.AZURE_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
-          containerAppName: weather-service
-          resourceGroup: weather_app_group
-          imageToDeploy: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/weather-service:latest
+      # - name: Deploy to Azure Container Apps
+        # uses: azure/container-apps-deploy-action@v1
+        # with:
+          # registryUrl: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io
+          # registryUsername: ${{ secrets.AZURE_REGISTRY_USERNAME }}
+          # registryPassword: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+          # containerAppName: weather-service
+          # resourceGroup: weather_app_group
+          # imageToDeploy: ${{ secrets.AZURE_REGISTRY_NAME }}.azurecr.io/weather-service:latest
 
-      - name: Run smoke test
-        run: |
-          echo "Waiting for deployment to stabilise..."
-          sleep 30
+      # - name: Run smoke test
+        # run: |
+          # echo "Waiting for deployment to stabilise..."
+          # sleep 30
 
-          # Get the app URL
-          APP_URL=$(az containerapp show \
-            --name weather-service \
-            --resource-group weather-service-rg \
-            --query "properties.configuration.ingress.fqdn" \
-            --output tsv)
+          # # Get the app URL
+          # APP_URL=$(az containerapp show \
+            # --name weather-service \
+            # --resource-group weather-service-rg \
+            # --query "properties.configuration.ingress.fqdn" \
+            # --output tsv)
 
-          echo "App URL: https://$APP_URL"
+          # echo "App URL: https://$APP_URL"
 
-          # Hit the health endpoint
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://$APP_URL/health)
+          # # Hit the health endpoint
+          # STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://$APP_URL/health)
 
-          if [ "$STATUS" != "200" ]; then
-            echo "❌ Health check failed — HTTP $STATUS"
-            exit 1
-          fi
+          # if [ "$STATUS" != "200" ]; then
+            # echo "❌ Health check failed — HTTP $STATUS"
+            # exit 1
+          # fi
 
-          echo "✅ Deployment successful — https://$APP_URL"
+          # echo "✅ Deployment successful — https://$APP_URL"
